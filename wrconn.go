@@ -1,4 +1,4 @@
-package wrap
+package wsconn
 
 import (
 	"net"

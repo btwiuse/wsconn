@@ -1,6 +1,6 @@
 //go:build !gorilla
 
-package wrap
+package wsconn
 
 import (
 	"net"
