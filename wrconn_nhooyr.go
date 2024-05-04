@@ -3,13 +3,14 @@
 package wsconn
 
 import (
+	"math"
 	"net"
 	"net/http"
 
 	"nhooyr.io/websocket"
 )
 
-const MAX_WS_MESSAGE = 8 * 1024 * 1024 // 8MB
+const MAX_WS_MESSAGE = math.MaxInt64 - 1 // -1 because the library adds a byte for the fin frame
 
 func wrconn(w http.ResponseWriter, r *http.Request) (net.Conn, error) {
 	wsconn, err := websocket.Accept(w, r, &websocket.AcceptOptions{
