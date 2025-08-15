@@ -7,7 +7,7 @@ import (
 	"net"
 	"net/http"
 
-	"nhooyr.io/websocket"
+	"github.com/coder/websocket"
 )
 
 const MAX_WS_MESSAGE = math.MaxInt64 - 1 // -1 because the library adds a byte for the fin frame

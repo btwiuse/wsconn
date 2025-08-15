@@ -6,7 +6,7 @@ import (
 	"context"
 	"net"
 
-	"nhooyr.io/websocket"
+	"github.com/coder/websocket"
 )
 
 func NetConn(wsconn *websocket.Conn) net.Conn {
