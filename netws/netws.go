@@ -2,6 +2,7 @@ package netws
 
 import (
 	"errors"
+	"math"
 	"net"
 	"net/http"
 	"sync"
@@ -11,9 +12,10 @@ import (
 
 // NetConn returns a net.Conn from a golang.org/x/net/websocket.Conn.
 // x/net/websocket.Conn already implements net.Conn directly.
-// Sets PayloadType to BinaryFrame so outgoing frames use binary opcode.
+// Sets PayloadType to BinaryFrame and disables payload size limit.
 func NetConn(c *websocket.Conn) net.Conn {
 	c.PayloadType = websocket.BinaryFrame
+	c.MaxPayloadBytes = math.MaxInt
 	return c
 }
 
@@ -69,6 +71,7 @@ func Wrconn(w http.ResponseWriter, r *http.Request) (net.Conn, error) {
 		// nil Handshake skips origin checking, accepts non-browser clients
 		Handler: func(ws *websocket.Conn) {
 			ws.PayloadType = websocket.BinaryFrame
+			ws.MaxPayloadBytes = math.MaxInt
 			c := &wsConn{Conn: ws, done: make(chan struct{})}
 			ch <- c
 			<-c.done
