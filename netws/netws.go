@@ -11,7 +11,9 @@ import (
 
 // NetConn returns a net.Conn from a golang.org/x/net/websocket.Conn.
 // x/net/websocket.Conn already implements net.Conn directly.
+// Sets PayloadType to BinaryFrame so outgoing frames use binary opcode.
 func NetConn(c *websocket.Conn) net.Conn {
+	c.PayloadType = websocket.BinaryFrame
 	return c
 }
 
@@ -66,6 +68,7 @@ func Wrconn(w http.ResponseWriter, r *http.Request) (net.Conn, error) {
 	s := &websocket.Server{
 		// nil Handshake skips origin checking, accepts non-browser clients
 		Handler: func(ws *websocket.Conn) {
+			ws.PayloadType = websocket.BinaryFrame
 			c := &wsConn{Conn: ws, done: make(chan struct{})}
 			ch <- c
 			<-c.done
