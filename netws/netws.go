@@ -84,5 +84,5 @@ func Wrconn(w http.ResponseWriter, r *http.Request) (net.Conn, error) {
 	if c == nil {
 		return nil, errors.New("netws: nil websocket connection")
 	}
-	return c, nil
+	return ConnWithAddr(c, NewAddr("websocket", r.RemoteAddr)), nil
 }
